@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            *{
+                margin: 0px;
+                padding: 0px;
+            }
+            body{
+                background-image: url(bg1.jpg);
+                background-position: center;
+                box-sizing: border-box;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                height:140vh;
+            }
+           
+            .container
+            {
+                width:800px;
+                height:550px;
+                background:rgb(17, 17, 17);
+                top:30%;
+                left:50%;
+                position: absolute;
+                transform: translate(-50%,-50%);
+                box-sizing: border-box;
+                padding: 100px 50px;
+                margin-top: 150px;
+                text-align: center;
+                opacity: 0.6;
+                display: flex;
+                flex-flow: row wrap;
+                align-items: center;
+                text-align: justify;
+
+            }
+
+            .container label{
+               
+                display: inline-block;
+                font-weight: bold;
+                color: white;
+                margin: 20px 10px 5px 10px;
+                position: absolute;
+
+           }
+         
+           .container input[type="text"]
+           {
+               vertical-align: middle;
+                margin: 20px 10px 5px 0;
+                padding: 10px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                margin-left: 11em;
+               
+               
+           }
+           
+           .container input[type="submit"]{
+               border:none;
+               outline: none;
+               margin-top:30px;
+               height:40px;
+               width: 250px;
+               margin-top: 20px;
+               margin-left: 250px;
+               background: rgb(201, 200, 198);
+               border-radius: 40px;
+               font-weight: bolder;
+           }
+           .container input[type="submit"]:hover{
+               cursor:pointer;
+               background:rgb(241, 239, 241);
+               color:rgb(3, 17, 19);
+           }
+           
+           .title
+           {
+                width:800px;
+                height:20px;
+                background-color: azure;
+                top:-27%;
+                left:50%;
+                position:fixed;
+                transform: translate(-50%,-50%);
+                box-sizing: border-box;
+                padding: 100px 50px;
+                margin-top: 200px;
+                text-align: center;
+                opacity: 0.6;
+                z-index: 1;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -moz-box;
+                display: -ms-flexbox;
+                flex-wrap: wrap;
+                flex-direction: column;
+                align-items: center;
+                padding: 50px 25px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                font-family: 'Times New Roman', Times, serif;
+                font-weight: bold;
+                font-size: 30px;
+           }
+
+        </style>
+    </head>
+    <body>
+     
+        <div class="container">
+            <div class="title">
+                <span>ADD RECORD</span>
+            </div>
+            <div class="form"></div>
+             <form name="addrecord" method="get" action="insertroadrecordservlet">
+                 
+                <label>Road No</label>
+                <input type="text" name="roadno" placeholder="Enter Road Number">
+                <label>Locality</label>
+                <input type="text" name="locality" placeholder="Enter Locality"><br>
+                 <label>area</label>
+                 <input type="text" name="area" placeholder="Enter Area">
+                 <label>state</label>
+                 <input type="text" name="state" placeholder="Enter State"><br>
+                 <label>country</label>
+                 <input type="text" name="country" placeholder="Enter Country">
+                 <label>Caregory of roads</label>
+                 <input type="text" name="category" placeholder="Enter Category"><br>
+                 <label>Type of Roads</label>
+                 <input type="text" name="type" placeholder="Enter Type of road">
+                 <label>Length of the Road</label>
+                 <input type="text" name="length" placeholder="Enter length of the road"><br>
+                 <label>width of the Road</label>
+                 <input type="text" name="width" placeholder="Enter width of the road">
+                 <label>contractor name</label>
+                 <input type="text" name="cname" placeholder="contractor name"><br>
+                 <label>budget spent</label>
+                 <input type="text" name="budget" placeholder="Enter budget spent">
+                 <label>modified date</label>
+                 <input type="text" name="date" placeholder="Enter repaired date"><br>
+               
+               
+               
+                   <input type="submit" name="submit" value="ADD" >
+             </form>
+        </div>
+    </body>
+    </html>
+ 

@@ -1,0 +1,126 @@
+<html lang="en">
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(bg1.jpg);
+            height:100vh;
+            font-family: fantasy;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment:fixed;
+           
+        }
+        .wrapper{
+           
+        width:410px;
+        height:480px;
+        position: relative;
+        margin:4% auto;
+        background:black;
+            color:#fff;
+            opacity:0.6;
+        padding:5px;
+        overflow:hide;
+            text-align: center;
+        }
+       .wrapper input{
+           width: 50%;
+           margin-bottom: 10px;
+       }
+        .header-area h2
+        {
+            position: absolute;
+            top:20px;
+            left:150px;
+        }
+       .form-area{
+                padding:50px;
+                margin-top: 0px;
+            }
+
+            .form-area p{
+                color: white;
+                font-weight: bold;
+               
+                font-size: 20px;
+               
+            }
+
+            .form-area option
+            {
+                font-style: italic;
+                font-weight: bold;
+            }
+         
+            .form-area option:hover
+            {
+                cursor:pointer;
+                background:white;
+            }
+            .form-area select
+            {
+                width: 80%;
+                background-position:80% center;
+                padding: 15px;
+            }
+            .wrapper input[type="submit"] {
+               border:none;
+               outline: none;
+               margin-top:30px;
+               height:30px;
+               width: 100px;
+               margin-top: 20px;
+               margin-left: 0px;
+               background: rgb(201, 200, 198);
+               border-radius: 40px;
+               font-weight: bolder;
+            }
+
+            .wrapper input[type="submit"]:hover{
+               cursor:pointer;
+               background:rgb(241, 241, 239);
+               color:rgb(3, 17, 19);
+            }
+       .animate-zoom {animation:animatezoom 0.6s}@keyframes animatezoom{from{transform:scale(0)} to{transform:scale(1)}}
+    </style>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>userhomepage</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class ="header-area">
+         
+        </div>
+     
+        <div class="form-area animate-zoom">
+           
+                <form  name="myForm"  method="get" action="userpageservlet" >
+                     
+                           <h1 align="center">USER HOME PAGE</h1><br>
+                           <h2 align="center">Choose to do</h2><br>
+                           <p>Select any of the option to continue</p><br/>
+                            <select name = "actions">
+                                     <option  selected>[choose action to be done]</option>
+                                     <option >View any particular road details</option>
+                                     <option >complaint</option>
+                                     <option >feedback</option>
+                            </select><br/>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <input   type = "submit" value = "Submit" />
+                       
+                     </form>
+           
+        </div>
+    </div>
+   
+</body>
+</html>

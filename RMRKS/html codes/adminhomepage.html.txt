@@ -128,7 +128,7 @@
             <div class="menu">
                 <form  name="myForm"  method="get" action="addrecordservlet" >
                    
-                    <p>Select any of the option to continue</p><br/>
+                    <p>Select any of the below option to continue</p><br/>
                    
                         <select  name = "actions">
                             <option  selected>[choose action to be done]</option>

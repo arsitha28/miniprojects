@@ -1,0 +1,129 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class addrecordservlet
+ */
+@WebServlet("/addrecordservlet")
+public class addrecordservlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+      
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public addrecordservlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+  
+     response.setContentType("text/html");
+     OutputStream os = response.getOutputStream();
+     PrintStream ps = new PrintStream(os);
+ try {
+      String s=request.getParameter("actions");
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","SYSTEM","root");
+      if(s.equals("Add record")){
+        
+         RequestDispatcher rd=request.getRequestDispatcher("insertroadrecord.html");
+         rd.include(request,response);
+        
+      }
+      else if(s.equals("Update record")){
+       
+           RequestDispatcher rd=request.getRequestDispatcher("updateroadrecord.html");
+           rd.include(request,response);
+          
+      }
+      else if(s.equals("View feedback")){ 
+        Statement stmt = con.createStatement(); 
+              ResultSet rs = stmt.executeQuery("select * from feedbacktable");
+              ps.println("<!DOCTYPE html>");
+           ps.println("<html>");
+           ps.println("<head>");
+           ps.println("<meta charset=\"utf-8\">");
+           ps.println("<style>");
+           ps.println("table{bordercolor:white;background-color: black; opacity:0.9;color:white;  text-align:center; margin-right: auto;margin-left: auto;}  body{ position: relative; margin:20px; background-image:url(bg1.jpg); text-align:justify; }</style>");
+           ps.println("</head>");
+           ps.println("<body>");
+              ps.print("<table  border=1 width=50% height=50%>"); 
+              ps.print("<tr><th><h1>Feedback</h1></th><tr>");
+             
+              while (rs.next())
+              { 
+                  String n = rs.getString("feedback"); 
+                 
+                  ps.print("<tr><td ><strong>" + n + "</strong></td></tr>");  
+              } 
+              ps.print("</table>"); 
+              ps.print("</html></body>"); 
+            
+      }
+      else {
+       PreparedStatement st=con.prepareStatement("select * from complaintstable");
+         
+          ResultSet rs=st.executeQuery();
+          int i=1;
+          ps.println("<!DOCTYPE html>");
+          ps.println("<html>");
+          ps.println("<head>");
+          ps.println("<meta charset=\"utf-8\">"); 
+          ps.println("<title> all complaints</title>");
+          ps.println("<style>");
+          ps.println("h1{ text-align:center;}table{ bordercolor:white;background-color: black; opacity:0.9;color:white; text-align:center; margin-right: auto;margin-left: auto;}  body{ position: relative; margin:20px; background-image:url(bg1.jpg); text-align:justify; }</style>");
+          ps.println("</head>");
+          ps.println("<body>");
+          ps.print("<table  border=1 width=70% height=70%>");
+          ps.println("<h1>Complaints</h1>");
+          ps.print("<tr><th>Complaint no</th><th>Photo</th><th>Description</th></tr>");
+          while(rs.next()) {
+           ps.println("<tr>");
+           ps.println("<td ><strong> "+i+"</strong></td>");
+           ps.println("<td ><img width='150' height='150' src=displayphoto?text=" +  rs.getString("text") + "></img> </td>");
+           ps.println("<td > <strong> "+rs.getString(2)+"</strong></td>");
+           
+           ps.println("</tr>");
+           i++;
+          }
+          ps.print("</table>"); 
+             ps.println("</body>");
+             ps.println("</html>");
+          
+      }
+ }
+ catch(Exception e) {
+     System.out.println("exception raised:"+e);
+        
+ }
+      
+ }
+ /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+ }
+}
+

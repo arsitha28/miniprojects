@@ -1,0 +1,78 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * Servlet implementation class updateroadrecordservlet
+ */
+@WebServlet("/updateroadrecordservlet")
+public class updateroadrecordservlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+      
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public updateroadrecordservlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+  response.getWriter().append("Served at: ").append(request.getContextPath());
+     response.setContentType("text/html");
+        PrintWriter out=response.getWriter();
+       
+ try {
+     
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","SYSTEM","root");
+  String roadn = request.getParameter("roadno");
+        String locality = request.getParameter("locality");
+        String area = request.getParameter("area");
+        String state = request.getParameter("state");
+        String list = request.getParameter("option");
+        String replace = request.getParameter("replace");
+       
+        PreparedStatement st=con.prepareStatement("update road_details set "+list+"=? where road_no=? and locality=? and area=? and state=?");
+       
+      
+        st.setString(1,replace);
+        st.setString(2,roadn);
+        st.setString(4,area);
+        st.setString(5,state);
+        st.setString(3,locality);
+      
+        int i=st.executeUpdate();
+        RequestDispatcher rd=request.getRequestDispatcher("success.html");
+        rd.include(request,response);
+        if(i>0) {
+        System.out.println(" record updated successfully");
+        }
+        else {
+         System.out.println("record updation failed");
+        }
+ }
+ catch(Exception e) {
+     System.out.println("exception raised:"+e);
+        
+ }
+        out.close();
+ }
+ /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+ }
+}

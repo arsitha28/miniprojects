@@ -1,0 +1,87 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * Servlet implementation class insertroadrecordservlet
+ */
+@WebServlet("/insertroadrecordservlet")
+public class insertroadrecordservlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+      
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public insertroadrecordservlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+   response.getWriter().append("Served at: ").append(request.getContextPath());
+     response.setContentType("text/html");
+        PrintWriter out=response.getWriter();
+       
+ try {
+     
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","SYSTEM","root");
+  String roadno=request.getParameter("roadno");
+        String locality=request.getParameter("locality");
+        String area=request.getParameter("area");
+        String state=request.getParameter("state");
+        String country=request.getParameter("country");
+        String category=request.getParameter("category");
+        String type=request.getParameter("type");
+        String len=request.getParameter("length");
+        String wid=request.getParameter("width");
+        String cname=request.getParameter("cname");
+        String budget=request.getParameter("budget");
+        String date=request.getParameter("date");
+        PreparedStatement st=con.prepareStatement("insert into road_details values(?,?,?,?,?,?,?,?,?,?,?,?)");
+        st.setString(1, roadno);
+        st.setString(2, locality);
+        st.setString(3,area);
+        st.setString(4,state);
+        st.setString(5,country);
+        st.setString(6,category);
+        st.setString(7,type);
+        st.setString(8,len);
+        st.setString(9, wid);
+        st.setString(10,cname);
+        st.setString(11,budget);
+        st.setString(12,date);
+        int i=st.executeUpdate();
+        RequestDispatcher rd=request.getRequestDispatcher("success.html");
+        rd.include(request,response);
+        if(i>0) {
+        System.out.println("record inserted successfully");
+        }
+        else {
+         System.out.println("record insertion failed");
+        }
+ }
+ catch(Exception e) {
+     System.out.println("exception raised:"+e);
+        
+ }
+        out.close();
+ }
+ /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+ }
+}

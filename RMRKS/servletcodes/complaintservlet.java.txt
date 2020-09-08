@@ -1,0 +1,84 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+/**
+ * Servlet implementation class complaintservlet
+ */
+@WebServlet("/complaintservlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+maxFileSize = 1024 * 1024 * 10, // 10MB
+maxRequestSize = 1024 * 1024 * 50) // 50MB
+public class complaintservlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+      
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public complaintservlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+  response.setContentType("text/html;charset=UTF-8");
+     PrintWriter out=response.getWriter();
+     try {
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","SYSTEM","root");
+      System.out.println("connected");
+    
+     String photo= request.getParameter("roadphoto");
+     if(photo==null){
+      System.out.println("empty");
+     }
+       File f=new File(photo);
+       InputStream fis =new FileInputStream(f);
+       System.out.println(photo);
+      
+      String text=request.getParameter("comptext");
+      PreparedStatement ps=con.prepareStatement("insert into complaintstable values(?,?)");
+      System.out.println("hi");
+      System.out.println(text);
+     
+      ps.setBinaryStream(1,fis,fis.available());
+      ps.setString(2,text);
+    
+      int x=ps.executeUpdate();
+      RequestDispatcher rd=request.getRequestDispatcher("success.html");
+      rd.forward(request, response);
+      if(x>0) {
+       System.out.println("row updated in database");
+      }
+      else {
+       System.out.println("row updation failed");
+      }
+     }
+     catch(Exception e) {
+      System.out.println("exception raised:"+e);
+     }
+     out.close();
+ }
+ /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+  
+ }
+}

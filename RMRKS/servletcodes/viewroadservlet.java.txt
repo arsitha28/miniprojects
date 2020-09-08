@@ -1,0 +1,104 @@
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Statement;
+/**
+ * Servlet implementation class viewroadservlet
+ */
+@WebServlet("/viewroadservlet")
+public class viewroadservlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+      
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public viewroadservlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+   response.setContentType("text/html;charset=UTF-8");
+      PrintWriter out=response.getWriter();
+      try {
+       Class.forName("oracle.jdbc.driver.OracleDriver");
+       Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","system","root");
+      
+       String loc=request.getParameter("locality");
+       String road=request.getParameter("roadno");
+       System.out.println(loc);
+      int i=0;
+    
+      PreparedStatement st=con.prepareStatement("select * from road_details where locality=?");
+       st.setString(1,loc);
+       ResultSet rs=st.executeQuery();
+      
+    
+       out.println("<!DOCTYPE html>");
+       out.println("<html>");
+       out.println("<head>");
+       out.println("<meta charset=\"utf-8\">"); 
+       out.println("<title>Road details</title>");
+       out.println("<style> ");
+       out.println("h1 { text-align:center;}table{ background-color: black; opacity:0.9;color:white; text-align:center; margin-right: auto;margin-left: auto;}  body{ position: relative; margin:20px; background-image:url(bg1.jpg); text-align:justify; }</style>");
+       out.println("</head>");
+       out.println("<body>");
+     
+         
+       
+      
+       out.println("<h1 >  "+loc+" roads </h1>");
+       out.print("<table  border=1 width=80% height=70%>");
+       out.print("<tr> <th>Index</th><th>Road number</th><th>Area</th><th>State </th><th>Country </th><th>Category</th><th>Type </th><th>Length</th><th>Width</th><th>Contractor</th><th>Budget</th><th>Last repired date</th>");
+       while(rs.next()){
+        i++;
+        System.out.println(111);
+        out.println("<tr>");
+         out.println("<td> "+i+"</td>");
+         out.println("<td>"+rs.getString("road_no")+"</td>");
+        // out.println("<img width='150' height='150' src=displayphoto?name=" +  rs.getString("productname") + "></img> <p/>");
+         out.println(" <td>"+rs.getString("area")+"</td>");
+         out.println("<td>"+rs.getString(4)+"</td>");
+         out.println("<td>"+rs.getString(5)+"</td>");
+         out.println(" <td>"+rs.getString(6)+"</td>");
+         out.println(" <td>"+rs.getString(7)+"</td>");
+         out.println(" <td>"+rs.getString(8)+"</td>");
+         out.println(" <td>"+rs.getString(9)+"</td>");
+         out.println("<td>"+rs.getString(10)+"</td>");
+         out.println("<td>"+rs.getString(11)+"</td>");
+         out.println("<td>"+rs.getString(12)+"</td>");
+         out.println("</tr");
+        
+       
+       
+       }
+          out.println("</body>");
+          out.println("</html>");
+        System.out.println(i);
+      
+      
+      }
+      catch(Exception e) {
+       System.out.println("exception raised:"+e);
+      }
+ }
+ /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+ }
+}
